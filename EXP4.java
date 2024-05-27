@@ -8,22 +8,14 @@ public class EXP4 {
         sc.nextLine();
 
         String[] productions = new String[n];
-        System.out.println("Enter the production(s):");
+        System.out.println("Enter the productions:");
         for (int i = 0; i < n; i++) {
             productions[i] = sc.nextLine();
         }
 
-        boolean leftFactoringOccurred = eliminateLeftFactoring(productions);
-
-        if (!leftFactoringOccurred) {
-            System.out.println("There is no left factoring in the given production(s)");
-        }
-        sc.close();
+        eliminateLeftFactoring(productions);
     }
-
-    private static boolean eliminateLeftFactoring(String[] productions) {
-        boolean leftFactoringOccurred = false;
-        List<String> newProductions = new ArrayList<>();
+    private static void eliminateLeftFactoring(String[] productions) {
         for (String production : productions) {
             String[] parts = production.split("->");
             String lhs = parts[0].trim();
@@ -31,44 +23,33 @@ public class EXP4 {
             String prefix = findCommonPrefix(rhs);
 
             if (!prefix.isEmpty()) {
-                leftFactoringOccurred = true;
-                newProductions.add(lhs + "->" + prefix + lhs + "'");
+                System.out.println(lhs + "->" + prefix + lhs + "'");
                 List<String> newRhs = new ArrayList<>();
                 for (String r : rhs) {
                     if (r.startsWith(prefix)) {
                         String suffix = r.substring(prefix.length()).trim();
                         if (suffix.isEmpty()) {
-                            suffix = "ε";
+                            suffix = "e";
                         }
                         newRhs.add(suffix);
                     } else {
                         newRhs.add(r);
                     }
                 }
-                newProductions.add(lhs + "'->" + String.join("|", newRhs));
+                System.out.println(lhs + "'->" + String.join("|", newRhs));
             } else {
-                newProductions.add(production);
-            }
-        }
-        if (leftFactoringOccurred) {
-            System.out.println("The new production(s) are:");
-            for (String production : newProductions) {
                 System.out.println(production);
             }
         }
-        return leftFactoringOccurred;
     }
-
     private static String findCommonPrefix(String[] rhs) {
-        String prefix = "";
-        if (rhs.length > 1) {
-            prefix = rhs[0];
-            for (int i = 1; i < rhs.length; i++) {
-                int j = 0;
-                while (j < prefix.length() && j < rhs[i].length() && prefix.charAt(j) == rhs[i].charAt(j)) {
-                    j++;
+        String prefix = rhs[0];
+        for (int i = 1; i < rhs.length; i++) {
+            while (rhs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                if (prefix.isEmpty()) {
+                    return "";
                 }
-                prefix = prefix.substring(0, j);
             }
         }
         return prefix;
