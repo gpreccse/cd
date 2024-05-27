@@ -1,6 +1,6 @@
 //2. Implementation of Lexical Analyzer.
 import java.util.*;
-public class exp2 {
+public class EXP2 {
     private static final List<String> KEYWORDS = Arrays.asList("if", "else", "while", "for", "int", "float", "double");
     enum TokenType {
         IDENTIFIER, NUMBER, KEYWORD, SYMBOL
@@ -8,7 +8,6 @@ public class exp2 {
     static class Token {
         TokenType type;
         String value;
-
         public Token(TokenType type, String value) {
             this.type = type;
             this.value = value;
@@ -41,7 +40,6 @@ public class exp2 {
         }
         if (currentToken.length() > 0) {
             tokens.add(createToken(currentToken.toString()));
-        
         return tokens;
     }
     private static Token createToken(String tokenValue) {
