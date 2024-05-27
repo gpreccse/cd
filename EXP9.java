@@ -1,12 +1,12 @@
 //9. Implementation of Stack Allocation Strategy.
 import java.util.Scanner;
+
 public class EXP9 {
     static int[] stack;
     static int top, n;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         top = -1;
 
         System.out.println("Enter the size of stack[MAX=100]: ");
@@ -14,14 +14,12 @@ public class EXP9 {
 
         if (n <= 0) {
             System.out.println("Invalid stack size.");
-            scanner.close();
             return;
         }
 
         stack = new int[n];
 
         System.out.println("\n\tStack Operations:");
-        System.out.println("\t--------------------------");
         System.out.println("\t1. Push");
         System.out.println("\t2. Pop");
         System.out.println("\t3. Display");
@@ -48,7 +46,6 @@ public class EXP9 {
                     System.out.println("Please enter a valid choice.");
             }
         } while (choice != 4);
-
     }
 
     static void push(Scanner scanner) {
