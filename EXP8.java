@@ -9,9 +9,9 @@ public class EXP8 {
         char[][][] opt = new char[10][10][1];
         char[] ter = new char[10];
         int i, j, k, n, top = 0, col = 0, row = 0;
-
+        
         Scanner scanner = new Scanner(System.in);
-
+        
         for (i = 0; i < 10; i++) {
             stack[i] = 0;
             ip[i] = 0;
@@ -19,12 +19,12 @@ public class EXP8 {
                 opt[i][j][0] = 0;
             }
         }
-
+        
         System.out.print("Enter the no. of terminals:");
         n = scanner.nextInt();
         System.out.print("\nEnter the terminals:");
         ter = scanner.next().toCharArray();
-
+        
         System.out.println("\nEnter the table values:");
         for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++) {
@@ -32,13 +32,13 @@ public class EXP8 {
                 opt[i][j] = scanner.next().toCharArray();
             }
         }
-
+        
         System.out.println("\nOPERATOR PRECEDENCE TABLE:");
         for (i = 0; i < n; i++) {
             System.out.print("\t" + ter[i]);
         }
         System.out.println();
-
+        
         for (i = 0; i < n; i++) {
             System.out.println();
             System.out.print(ter[i]);
@@ -46,7 +46,7 @@ public class EXP8 {
                 System.out.print("\t" + opt[i][j][0]);
             }
         }
-
+        
         stack[top] = '$';
         System.out.print("\nEnter the input string:");
         String input = scanner.next();
@@ -54,7 +54,7 @@ public class EXP8 {
         i = 0;
         System.out.println("\nSTACK\t\t\tINPUT STRING\t\t\tACTION");
         System.out.print("\n" + String.valueOf(stack) + "\t\t\t" + input + "\t\t\t");
-
+        
         while (i <= input.length()) {
             for (k = 0; k < n; k++) {
                 if (stack[top] == ter[k])
@@ -62,7 +62,6 @@ public class EXP8 {
                 if (ip[i] == ter[k])
                     row = k;
             }
-
             if ((stack[top] == '$') && (ip[i] == '$')) {
                 System.out.println("String is ACCEPT");
                 break;
