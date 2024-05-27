@@ -1,65 +1,42 @@
 //3. Implement Elimination of Left Recursion.
-import java.util.*;
+import java.util.Scanner;
 public class EXP3 {
-   
-    public static void eliminateLeftRecursion(Map<String, List<String>> grammar) {
-        for (String nonTerminal : new ArrayList<>(grammar.keySet())) {
-            List<String> productions = grammar.get(nonTerminal);
-            List<String> newProductions = new ArrayList<>();
-            List<String> recursiveProductions = new ArrayList<>();
-           
-            // Separate recursive and non-recursive productions
-            for (String production : productions) {
-                if (production.startsWith(nonTerminal)) {
-                    recursiveProductions.add(production.substring(nonTerminal.length()).trim());
-                } else {
-                    newProductions.add(production);
-                }
-            }
-           
-            if (!recursiveProductions.isEmpty()) {
-                String newNonTerminal = nonTerminal + "'";
-               
-                // Add new productions for non-terminal
-                for (String production : new ArrayList<>(recursiveProductions)) {
-                    newProductions.add(production + " " + newNonTerminal);
-                    recursiveProductions.remove(0);
-                    recursiveProductions.add(production + " " + newNonTerminal);
-                }
-               
-                // Add epsilon production
-                newProductions.add("$");
-               
-                // Update grammar
-                grammar.put(nonTerminal, newProductions);
-                grammar.put(newNonTerminal, recursiveProductions);
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        // Dynamic input
         Scanner scanner = new Scanner(System.in);
-        Map<String, List<String>> grammar = new LinkedHashMap<>();
-       
-        System.out.println("Enter grammar productions (press Enter after each non-terminal production, and type 'done' to finish):");
-        String input = scanner.nextLine();
-        while (!input.equals("done")) {
-            String[] parts = input.split("->");
-            String nonTerminal = parts[0].trim();
-            String[] productions = parts[1].trim().split("\\|");
-            grammar.put(nonTerminal, Arrays.asList(productions));
-            input = scanner.nextLine();
+        char nt;
+        char b, a;
+        int num;
+        int index = 3;
+        System.out.print("Enter Number of productions:");
+        num = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        String[] p = new String[num];
+        System.out.println("Enter the grammar as E->E-A:");
+        for (int i = 0; i < num; i++) {
+            p[i] = scanner.nextLine();
         }
-       
-        scanner.close();
+        for (int i = 0; i < num; i++) {
+            System.out.println("\nGRAMMAR:" + p[i]);
+            nt = p[i].charAt(0);
 
-        // Eliminate left recursion
-        eliminateLeftRecursion(grammar);
-
-        // Display the modified grammar
-        for (String nonTerminal : grammar.keySet()) {
-            System.out.println(nonTerminal + " -> " + String.join(" | ", grammar.get(nonTerminal)));
+            if (nt == p[i].charAt(index)) {
+                a = p[i].charAt(index);
+                System.out.println("is left recursive:");
+                while (index < p[i].length() && p[i].charAt(index) != '|' && p[i].charAt(index) != 0) {
+                    index++;
+                }
+                if (index < p[i].length()) {
+                    b = p[i].charAt(index + 1);
+                    System.out.println("Grammar without left recursion;");
+                    System.out.println(nt + "->" + b + nt + "'");
+                    System.out.println("\n" + nt + "'->" + a + nt + "'|E");
+                } else {
+                    System.out.println("can’t be reduced");
+                }
+            } else {
+                System.out.println("is not left recursive");
+            }
+            index = 3;
         }
     }
 }
